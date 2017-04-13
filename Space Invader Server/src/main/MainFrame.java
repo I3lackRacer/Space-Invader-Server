@@ -467,7 +467,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	public static void chat(String msg) {
-		for(int i = 0; i < mps.al.size()-1; i++) {
+		for(int i = 0; i < mps.al.size(); i++) {
 				mps.al.get(i).sOutput.append("\n." + msg);
 		}
 		chatUpdate("[Host] " + msg);

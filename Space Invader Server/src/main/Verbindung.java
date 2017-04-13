@@ -49,11 +49,23 @@ public class Verbindung implements Runnable{
 		ip = socket.getInetAddress().getHostAddress();
 		MainFrame.playerUpdate(name + " (" + ip + ")");
 		sOutput.println("Lies vor");
-//		sOutput.flush();
 		System.out.println(name + " ++Name");
 		System.out.println(ip + " ++IP");
+		empfang();
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("--- " + e.getMessage());
+		}
+	}
+
+	public void empfang() {
+		String input = null;
+		while(stillConnected) {
+			if((input = sInput.nextLine()) != null) {
+				if(input.charAt(0) == '.') {
+					MainFrame.chatUpdate("[" + name + "] " + input.substring(1, input.length()-1));
+				}
+			}
 		}
 	}
 	
