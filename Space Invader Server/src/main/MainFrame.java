@@ -465,7 +465,7 @@ public class MainFrame extends JFrame {
 	public static void error(String text) {
 		listUpdate("[ERROR] " + text);
 	}
-	
+	// Veränderung
 	public static void chat(String msg) {
 		for(int i = 0; i < mps.al.size(); i++) {
 				mps.al.get(i).sOutput.append("\n." + msg);
