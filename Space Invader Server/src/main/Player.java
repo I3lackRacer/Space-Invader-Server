@@ -10,46 +10,22 @@ public class Player extends GameObject {
 	public float breite;
 	private HUD hud;
 	Handler handler;
-	private static int redHit = 0;
-	private NormalerGegner n = null;
-	public static boolean loading = false;
-	public static boolean reloading = false;
-	public boolean Charged = false;
 	public static int REDSTRENGH = 10, REDTIME = 5;
-	private int reloadtime = -1;
 	public static int magazinSize = 24;
 	public static int bulletRemain = magazinSize;
 	public Verbindung verbindung;
+	public int verbindungsNummer;
 
-	public Player(int x, int y, ID id, Handler handler, HUD hud, Verbindung verbindung) {
+	public Player(int x, int y, ID id, Handler handler, HUD hud, Verbindung verbindung, int verbindungsNummer) {
 		
 		super(x, y, id);
 		this.verbindung = verbindung;
 		this.handler = handler;
 		this.setHud(hud);
-
+		this.verbindungsNummer = verbindungsNummer;
 	}
 
 	public void tick() {
-		if(redHit > 0) {
-			redHit -= REDTIME;
-		}
-
-		if (loading == false) {
-			x += velX;
-			y += velY;
-		}
-		if (reloading == true && reloadtime == -1) {
-			reloadtime = 100;
-		}
-		if (reloadtime >= 1) {
-			reloadtime--;
-		}
-		if (reloadtime == 0) {
-			reloadtime = -1;
-			reloading = false;
-			bulletRemain = magazinSize;
-		}
 		x = MainFrame.clamp(x, 0, MainFrame.WIDTH - 37);
 		y = MainFrame.clamp(y, 0, MainFrame.HEIGHT - 60);
 
@@ -80,12 +56,8 @@ public class Player extends GameObject {
 				if (getBounds().intersects(tempobjekt.getBounds())) {
 					verbindung.Leben-=35;
 					tempobjekt.removeThis();
-					setRedHit(REDSTRENGH);
 
 					handler.removeObject(tempobjekt);
-
-					setN((NormalerGegner) tempobjekt);
-
 				}
 			}
 
@@ -104,7 +76,6 @@ public class Player extends GameObject {
 				if (getBounds().intersects(tempobjekt.getBounds())) {
 					verbindung.Leben-=35;
 					tempobjekt.removeThis();
-					setRedHit(REDSTRENGH);
 					handler.removeObject(tempobjekt);
 				}
 			}
@@ -124,7 +95,6 @@ public class Player extends GameObject {
 				if (getBounds().intersects(tempobjekt.getBounds())) {
 					verbindung.Leben-=35;
 					tempobjekt.removeThis();
-					setRedHit(REDSTRENGH);
 					handler.removeObject(tempobjekt);
 				}
 			}
@@ -133,7 +103,6 @@ public class Player extends GameObject {
 				if (getBounds().intersects(tempobjekt.getBounds())) {
 					verbindung.Leben-=50;
 					tempobjekt.removeThis();
-					setRedHit(REDSTRENGH);
 					handler.removeObject(tempobjekt);
 				}
 			}
@@ -142,7 +111,6 @@ public class Player extends GameObject {
 				if (getBounds().intersects(tempobjekt.getBounds())) {
 					verbindung.Leben-=10;
 					handler.removeObject(tempobjekt);
-					setRedHit(REDSTRENGH);
 				}
 			}
 
@@ -151,18 +119,9 @@ public class Player extends GameObject {
 					Asteroid a = (Asteroid) tempobjekt;
 					a.killThis();
 					verbindung.Leben-=50;
-					setRedHit(REDSTRENGH);
 				}
 			}
 		}
-	}
-
-	public static int getRedHit() {
-		return redHit;
-	}
-
-	public static void setRedHit(int redHit) {
-		Player.redHit = redHit;
 	}
 
 	public void removeThis() {
@@ -175,13 +134,5 @@ public class Player extends GameObject {
 
 	public void setHud(HUD hud) {
 		this.hud = hud;
-	}
-
-	public NormalerGegner getN() {
-		return n;
-	}
-
-	public void setN(NormalerGegner n) {
-		this.n = n;
 	}
 }

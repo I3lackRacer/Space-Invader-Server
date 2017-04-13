@@ -69,5 +69,17 @@ public class Verbindung implements Runnable{
 		}
 	}
 	
-	
+	public void stop(){
+		try {
+		socket.close();
+		MultiplayerServer.al.remove(this);
+		MainFrame.info("Verbindung von " + name + " getrennt. IP: (" + ip + ")");
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void send(String finalString) {
+		sOutput.append(finalString + "\n");
+	}
 }

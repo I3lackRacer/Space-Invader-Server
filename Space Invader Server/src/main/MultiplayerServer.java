@@ -10,14 +10,15 @@ public class MultiplayerServer implements Runnable{
 	public ServerSocket server;
 	public int port = 4308;
 	public int trys = 0;
-	public ArrayList<Verbindung> al = new ArrayList<Verbindung>();
+	public static ArrayList<Verbindung> al = new ArrayList<Verbindung>();
 	
 	public void verbinde() {
 		al.add(new Verbindung(server));
 		MainFrame.info("Verbindungen werden gesucht");
 		while(!MainFrame.stopServer) {
 			while(!MainFrame.logins.isSelected());
-				if(al.get(al.size()-1).stillConnected) {
+			System.out.println(al.size()-1);
+				if(al.get(al.size()-2).stillConnected) {
 					MainFrame.info("Neue Verbindung wird hergestellt");
 					MainFrame.playerUpdate(al.get(al.size()-1).name);
 					al.add(new Verbindung(server));
@@ -48,4 +49,10 @@ public class MultiplayerServer implements Runnable{
 		}
 	}
 
+	public static void sendAll(String message) {
+		for(int i = 0; i < MultiplayerServer.al.size(); i++) {
+			Verbindung verbindung = MultiplayerServer.al.get(i);
+			verbindung.send(message);
+		}
+	}
 }

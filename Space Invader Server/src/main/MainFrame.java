@@ -270,7 +270,10 @@ public class MainFrame extends JFrame {
 					}
 				}
 				mps = null;
-				t1.stop();
+//				t1.stop();
+				for(int i = 0; i < MultiplayerServer.al.size(); i++) {
+					MultiplayerServer.al.get(i).stop();
+				}
 				t1 = null;
 				info("Der Server ist DOWN");
 			}
@@ -465,10 +468,9 @@ public class MainFrame extends JFrame {
 	public static void error(String text) {
 		listUpdate("[ERROR] " + text);
 	}
-	// Veränderung
 	public static void chat(String msg) {
 		for(int i = 0; i < mps.al.size(); i++) {
-				mps.al.get(i).sOutput.append("\n." + msg);
+				mps.al.get(i).sOutput.append(msg + "\n.");
 		}
 		chatUpdate("[Host] " + msg);
 	}

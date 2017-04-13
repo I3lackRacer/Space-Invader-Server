@@ -53,7 +53,6 @@ public class BulletGegner extends GameObject {
 					Player p = (Player) tempobjekt;
 					p.verbindung.Leben-=11;
 					handler.removeObject(this);
-					Player.setRedHit(255);
 				}
 			}
 

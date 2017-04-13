@@ -41,7 +41,6 @@ public class Schild extends GameObject {
 
 			if (color <= 1) {
 				überlasteterSchild = true;
-				Player.setRedHit(250);
 				owner.verbindung.Leben -= 10;
 				handler.removeObject(this);
 				color = 255;
