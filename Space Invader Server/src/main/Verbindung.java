@@ -75,7 +75,7 @@ public class Verbindung implements Runnable{
 			System.out.println(e.getMessage());
 		}
 	}
-	// UP TO DATE
+	// UP TO DATE-
 	public void empfang() {
 		String input = null;
 		while(stillConnected) {
