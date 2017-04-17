@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
 public class Verbindung implements Runnable{
 
 	public String name = "";
@@ -41,6 +43,23 @@ public class Verbindung implements Runnable{
 		}
 	}
 	
+	public void update() {
+		for(int i = 0; i < MainFrame.game.handler.size(); i++) {
+			GameObject o = MainFrame.game.handler.objects.get(i);
+			String finalString = "";
+			if(o.getId() == ID.NormalerGegner) {
+				finalString = "n";
+			}
+			if(o.getId() == ID.AimGegner) {
+				finalString = "a";
+			}
+			if(o.getId() == ID.Asteroid) {
+				finalString = "m";
+			}
+			send(finalString + ( (int)o.getX() ) + ";" + ( (int)o.getY() ) );
+		}
+	}
+
 	public void variablen(Socket s) {
 		try {
 		sOutput  = new PrintStream(s.getOutputStream());
@@ -49,8 +68,7 @@ public class Verbindung implements Runnable{
 		ip = socket.getInetAddress().getHostAddress();
 		MainFrame.playerUpdate(name + " (" + ip + ")");
 		sOutput.println("Lies vor");
-		System.out.println(name + " ++Name");
-		System.out.println(ip + " ++IP");
+		update();
 		empfang();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -61,7 +79,8 @@ public class Verbindung implements Runnable{
 	public void empfang() {
 		String input = null;
 		while(stillConnected) {
-			if((input = sInput.nextLine()) != null) {
+			if(sInput.hasNext()) {
+				input = sInput.next();
 				if(input.charAt(0) == '.') {
 					MainFrame.chatUpdate("[" + name + "] " + input.substring(1, input.length()-1));
 				}

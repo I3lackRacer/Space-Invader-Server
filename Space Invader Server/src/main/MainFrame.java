@@ -42,6 +42,7 @@ public class MainFrame extends JFrame {
 	public static KeyInput kInput = new KeyInput();
 	public static Thread t1;
 	public static MultiplayerServer mps;
+	public static Game game;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -281,6 +282,7 @@ public class MainFrame extends JFrame {
 			
 		case "start":
 			mps = new MultiplayerServer();
+			game = new Game();
 			break;
 
 		case "kickall":
@@ -470,7 +472,7 @@ public class MainFrame extends JFrame {
 	}
 	public static void chat(String msg) {
 		for(int i = 0; i < mps.al.size(); i++) {
-				mps.al.get(i).sOutput.append(msg + "\n.");
+				mps.al.get(i).sOutput.append(".[Host]/" + msg.replace(' ', '/') + "\n");
 		}
 		chatUpdate("[Host] " + msg);
 	}

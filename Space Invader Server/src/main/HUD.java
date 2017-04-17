@@ -24,8 +24,9 @@ public class HUD {
 		playerList.add(p);
 	}
 	
-	public Player addNewPlayer() {
-		Player p = new Player(x, y, id, handler, hud, verbindung)
+	public void addNewPlayer(int x, int y, Handler handler, HUD hud, Verbindung verbindung) {
+		Player p = new Player(x, y, ID.Player, handler, hud, verbindung, playerList.size());
+		playerList.add(p);
 	}
 	
 	public void setLevel(int level) {

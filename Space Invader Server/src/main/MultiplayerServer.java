@@ -17,8 +17,7 @@ public class MultiplayerServer implements Runnable{
 		MainFrame.info("Verbindungen werden gesucht");
 		while(!MainFrame.stopServer) {
 			while(!MainFrame.logins.isSelected());
-			System.out.println(al.size()-1);
-				if(al.get(al.size()-2).stillConnected) {
+				if(al.get(al.size()-1).stillConnected) {
 					MainFrame.info("Neue Verbindung wird hergestellt");
 					MainFrame.playerUpdate(al.get(al.size()-1).name);
 					al.add(new Verbindung(server));
@@ -50,9 +49,12 @@ public class MultiplayerServer implements Runnable{
 	}
 
 	public static void sendAll(String message) {
+		Verbindung verbindung;
 		for(int i = 0; i < MultiplayerServer.al.size(); i++) {
-			Verbindung verbindung = MultiplayerServer.al.get(i);
-			verbindung.send(message);
+			verbindung = MultiplayerServer.al.get(i);
+			if(verbindung.stillConnected) {
+				verbindung.send(message);
+			}
 		}
 	}
 }
