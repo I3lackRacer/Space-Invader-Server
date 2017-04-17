@@ -41,6 +41,7 @@ public class Game implements Runnable {
 
 	public void tick() {
 		spawner.tick();
+		handler.tick();
 	}
 	
 	public void stop() {

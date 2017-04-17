@@ -48,7 +48,7 @@ public class Spawner {
 		
 		//Asteroid
 		if(r.nextInt(1000) <= Asteroid_zufall) {
-			Asteroid a = new Asteroid(r.nextInt(weite-32), -32, ID.AimGegner, handler, hud);
+			Asteroid a = new Asteroid(r.nextInt(weite-32), -32, ID.Asteroid, handler, hud);
 			handler.addObject(a);
 			sendObject(a);
 		}

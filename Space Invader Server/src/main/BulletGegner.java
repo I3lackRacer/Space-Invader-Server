@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Rectangle;
+import java.util.Random;
 
 import main.ID;
 
@@ -19,13 +20,15 @@ public class BulletGegner extends GameObject {
 		velY = 9;
 
 		if (id == ID.AimBullet) {
-			float playerX = handler.getDirect(ID.Player).getX() + 16;
-			float playerY = handler.getDirect(ID.Player).getY() + 16;
+			if (hud.playerList.size() >= 1) {
+				float playerX = hud.playerList.get(new Random().nextInt(hud.playerList.size() - 1)).getX() + 16;
+				float playerY = hud.playerList.get(new Random().nextInt(hud.playerList.size() - 1)).getY() + 16;
 
-			float sup = (float) Math.sqrt(((playerX - x) * (playerX - x)) + ((playerY - y) * (playerY - y)));
-			float speed = 8F;
-			velX = ((playerX - x) / sup) * speed;
-			velY = ((playerY - y) / sup) * speed;
+				float sup = (float) Math.sqrt(((playerX - x) * (playerX - x)) + ((playerY - y) * (playerY - y)));
+				float speed = 8F;
+				velX = ((playerX - x) / sup) * speed;
+				velY = ((playerY - y) / sup) * speed;
+			}
 		}
 	}
 
@@ -51,7 +54,7 @@ public class BulletGegner extends GameObject {
 			if (tempobjekt.id == ID.Player) {
 				if (getBounds().intersects(tempobjekt.getBounds())) {
 					Player p = (Player) tempobjekt;
-					p.verbindung.Leben-=11;
+					p.verbindung.Leben -= 11;
 					handler.removeObject(this);
 				}
 			}
@@ -61,11 +64,11 @@ public class BulletGegner extends GameObject {
 					handler.removeObject(this);
 				}
 			}
-			
-			if(tempobjekt.id == ID.AimGegner) {
+
+			if (tempobjekt.id == ID.AimGegner) {
 				removeThis();
 			}
-			if(tempobjekt.id == ID.NormalerGegner) {
+			if (tempobjekt.id == ID.NormalerGegner) {
 				removeThis();
 			}
 		}

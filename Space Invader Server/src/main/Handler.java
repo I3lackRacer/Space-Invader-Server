@@ -54,4 +54,10 @@ public class Handler {
 		return false;
 	}
 
+	public void tick() {
+		for(int i = 0; i < objects.size(); i++) {
+			objects.get(i).tick();
+		}
+	}
+
 }

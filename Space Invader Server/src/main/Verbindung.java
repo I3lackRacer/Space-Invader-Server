@@ -72,7 +72,7 @@ public class Verbindung implements Runnable{
 		empfang();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("--- " + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -84,6 +84,11 @@ public class Verbindung implements Runnable{
 				if(input.charAt(0) == '.') {
 					MainFrame.chatUpdate("[" + name + "] " + input.substring(1, input.length()-1));
 				}
+				if(input.charAt(0) == 'b') {
+					Bullet b = new Bullet(Integer.valueOf(input.substring(1).split(";")[0]), Integer.valueOf(input.substring(1).split(";")[1]), ID.Bullet, MainFrame.game.handler, MainFrame.game.hud, false);
+					MainFrame.game.handler.addObject(b);
+					MultiplayerServer.sendAll("b" + b.x + ";" + b.y);
+				}	
 			}
 		}
 	}
