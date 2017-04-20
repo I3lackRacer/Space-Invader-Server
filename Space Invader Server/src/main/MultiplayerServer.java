@@ -26,6 +26,7 @@ public class MultiplayerServer implements Runnable{
 		MainFrame.t1 = null;
 		MainFrame.stopServer = false;
 		MainFrame.info("Der Server is TOT");
+		MainFrame.mps = null;
 	}
 	
 	public MultiplayerServer() {
@@ -46,6 +47,13 @@ public class MultiplayerServer implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void stop() {
+		MainFrame.t1 = null;
+		MainFrame.stopServer = false;
+		MainFrame.info("Der Server is TOT");
+		MainFrame.mps = null;
 	}
 
 	public static void sendAll(String message) {
