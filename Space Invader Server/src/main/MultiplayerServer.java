@@ -23,6 +23,7 @@ public class MultiplayerServer implements Runnable{
 					al.add(new Verbindung(server));
 				}
 			}
+		//
 		MainFrame.t1 = null;
 		MainFrame.stopServer = false;
 		MainFrame.info("Der Server is TOT");
