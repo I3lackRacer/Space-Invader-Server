@@ -38,10 +38,19 @@ public class MultiplayerServer implements Runnable{
 		MainFrame.t1 = new Thread(this);
 		MainFrame.t1.start();
 	}
-
+	
+	public void stop() {
+		try {
+			server.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void run() {
 		try {
+			new Inspector();
 			server = new ServerSocket(port);
 			MainFrame.cmd("Server gestartet");
 			verbinde();

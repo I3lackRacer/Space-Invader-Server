@@ -262,13 +262,8 @@ public class MainFrame extends JFrame {
 				info("Es läuft kein Server");
 			}else {
 				stopServer = true;
-				for(Verbindung e : mps.al) {
-					try {
-						e.socket.close();
-						
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+				for(Verbindung e : MultiplayerServer.al) {
+					e.stop();
 				}
 				mps = null;
 //				t1.stop();
