@@ -39,14 +39,6 @@ public class MultiplayerServer implements Runnable{
 		MainFrame.t1.start();
 	}
 	
-	public void stop() {
-		try {
-			server.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	@Override
 	public void run() {
 		try {
@@ -60,6 +52,11 @@ public class MultiplayerServer implements Runnable{
 	}
 	
 	public void stop() {
+		try {
+			server.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		MainFrame.t1 = null;
 		MainFrame.stopServer = false;
 		MainFrame.info("Der Server is TOT");
