@@ -102,7 +102,7 @@ public class Verbindung implements Runnable{
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void send(String finalString) {
 		sOutput.append(finalString + "\n");
 	}

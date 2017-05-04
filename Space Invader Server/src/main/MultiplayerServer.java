@@ -44,10 +44,11 @@ public class MultiplayerServer implements Runnable{
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
 	public void run() {
 		try {
+			new Inspector();
 			server = new ServerSocket(port);
 			MainFrame.cmd("Server gestartet");
 			verbinde();
