@@ -8,12 +8,13 @@ public class Inspector implements Runnable {
 	public void run() {
 		while (isProofing) {
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(15*1000);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			for (Verbindung v : MultiplayerServer.al) {
-				if (v.stillConnected) {
+			for (int i = 0; i < MultiplayerServer.al.size(); i++) {
+				Verbindung v = MultiplayerServer.al.get(i);
+				if (v.stillConnected && v.socket != null) {
 					v.inspection();
 				}
 			}

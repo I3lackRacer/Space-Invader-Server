@@ -212,6 +212,9 @@ public class MainFrame extends JFrame {
 				scrollPlayer.setBounds(10, 10, panel_right_up.getWidth() - 20, panel_right_up.getHeight() - 20);
 				input.setBounds(panel_left.getX(), y - 70, panel_left.getWidth(), 20);
 				enter.setBounds(input.getX() + input.getWidth() + 20, y - 70, 90, 20);
+				chat.setText(chat.getText());
+				console.setText(console.getText());
+				playerlist.setText(playerlist.getText());
 				if (x > 444) {
 					logins.setBounds(enter.getWidth() + enter.getX() + 20, y - 70, x / 2 - 40, 20);
 				} else {
@@ -237,7 +240,9 @@ public class MainFrame extends JFrame {
 	public static void playerUpdate() {
 		String pre = "";
 		for(Verbindung v : MultiplayerServer.al) {
-			pre = pre + v.name + "(" + v.ip + ")\n";
+			if(v.socket != null) {
+				pre = pre + v.id + ". " + v.name + "(" + v.ip + ")\n";
+			}
 		}
 		playerlist.setText(pre);
 		if (playerlist.getText().length() > 1) playerlist.setCaretPosition(playerlist.getText().length() - 1);
@@ -266,22 +271,31 @@ public class MainFrame extends JFrame {
 				info("Es läuft kein Server");
 			}else {
 				stopServer = true;
-				for(Verbindung e : MultiplayerServer.al) {
-					e.stop();
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
 				}
-				mps = null;
-//				t1.stop();
 				for(int i = 0; i < MultiplayerServer.al.size(); i++) {
-					MultiplayerServer.al.get(i).stop();
+					if(MultiplayerServer.al.get(i).stillConnected) {
+						MultiplayerServer.al.get(i).stop();
+					}
 				}
 				mps.stop();
+				mps = null;
+				info("Der Server is TOT");
+				t1.interrupt();
+				t1.stop();
+				t1 = null;
 				info("Der Server ist DOWN");
 			}
 			break;
-			
+		case "playerupdate":
+			playerUpdate();
+			break;
 		case "start":
-			mps = new MultiplayerServer();
 			game = new Game();
+			mps = new MultiplayerServer(game.handler);
 			break;
 
 		case "kickall":
