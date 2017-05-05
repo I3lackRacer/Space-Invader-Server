@@ -234,8 +234,12 @@ public class MainFrame extends JFrame {
 		if (console.getText().length() > 1) console.setCaretPosition(console.getText().length() - 1);
 	}
 	
-	public static void playerUpdate(String p) {
-		playerlist.append(p + "\n");
+	public static void playerUpdate() {
+		String pre = "";
+		for(Verbindung v : MultiplayerServer.al) {
+			pre = pre + v.name + "(" + v.ip + ")\n";
+		}
+		playerlist.setText(pre);
 		if (playerlist.getText().length() > 1) playerlist.setCaretPosition(playerlist.getText().length() - 1);
 	}
 	
@@ -292,7 +296,7 @@ public class MainFrame extends JFrame {
 			System.out.println("TRIGGED");
 			System.out.println(all[1].length() + "---");
 			if(all[1] == null) break;
-			playerUpdate(all[1]);
+			playerUpdate();
 			cmd("Imaginärer Spieler " + all[1] + " wurde hinzugefügt.");
 		break;
 

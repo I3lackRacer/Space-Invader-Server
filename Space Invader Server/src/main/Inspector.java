@@ -1,22 +1,27 @@
 package main;
 
-public class Inspector implements Runnable{
-	
+public class Inspector implements Runnable {
+
 	private boolean isProofing = false;
-	
+
 	@Override
 	public void run() {
-		while(isProofing) {
-			for(Verbindung v : MultiplayerServer.al) {
-				if(v.stillConnected) {
-					v.send("&");
+		while (isProofing) {
+			try {
+				Thread.sleep(2000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			for (Verbindung v : MultiplayerServer.al) {
+				if (v.stillConnected) {
+					v.inspection();
 				}
 			}
 		}
 	}
-	
+
 	public Inspector() {
-		setProofing(true);
+		isProofing = true;
 		Thread t = new Thread(this);
 		t.start();
 	}

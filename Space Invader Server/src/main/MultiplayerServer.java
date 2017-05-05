@@ -19,13 +19,12 @@ public class MultiplayerServer implements Runnable{
 			while(!MainFrame.logins.isSelected());
 				if(al.get(al.size()-1).stillConnected) {
 					MainFrame.info("Neue Verbindung wird hergestellt");
-					MainFrame.playerUpdate(al.get(al.size()-1).name);
+					MainFrame.playerUpdate();
 					al.add(new Verbindung(server));
 				}
 			}
-		//
 		MainFrame.t1 = null;
-		MainFrame.stopServer = false;
+		MainFrame.stopServer = true;
 		MainFrame.info("Der Server is TOT");
 		MainFrame.mps = null;
 	}
@@ -43,6 +42,7 @@ public class MultiplayerServer implements Runnable{
 	public void run() {
 		try {
 			new Inspector();
+			MainFrame.stopServer = false;
 			server = new ServerSocket(port);
 			MainFrame.cmd("Server gestartet");
 			verbinde();

@@ -1,6 +1,7 @@
 
 package main;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -20,8 +21,10 @@ public class Verbindung implements Runnable{
 	public int id;
 	public boolean stillConnected = false;
 	private ServerSocket server;
+	private long lastInput = 0;
 	
 	public Verbindung(ServerSocket ss)  {
+		MainFrame.info("Verbindung Nr." + MultiplayerServer.al.size());
 		Thread t1 = new Thread(this);
 		server = ss;
 		t1.start();
@@ -35,6 +38,7 @@ public class Verbindung implements Runnable{
 	public void Connect() {
 		try {
 			socket = server.accept();
+			lastInput = System.currentTimeMillis();
 			stillConnected = true;
 			MainFrame.info("Verbindung gefunden");
 			variablen(socket);
@@ -66,7 +70,7 @@ public class Verbindung implements Runnable{
 		sInput  = new Scanner(s.getInputStream());
 		name = sInput.nextLine();
 		ip = socket.getInetAddress().getHostAddress();
-		MainFrame.playerUpdate(name + " (" + ip + ")");
+		MainFrame.playerUpdate();
 		sOutput.println("Lies vor");
 		update();
 		empfang();
@@ -80,7 +84,11 @@ public class Verbindung implements Runnable{
 		String input = null;
 		while(stillConnected) {
 			if(sInput.hasNext()) {
+				lastInput = System.currentTimeMillis();
 				input = sInput.next();
+				if(input == "bye") {
+					stop();
+				}
 				if(input.charAt(0) == '.') {
 					MainFrame.chatUpdate("[" + name + "] " + input.substring(1, input.length()-1));
 				}
@@ -95,15 +103,23 @@ public class Verbindung implements Runnable{
 	
 	public void stop(){
 		try {
-		socket.close();
-		MultiplayerServer.al.remove(this);
-		MainFrame.info("Verbindung von " + name + " getrennt. IP: (" + ip + ")");
+			socket.close();
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+		MultiplayerServer.al.remove(this);
+		MainFrame.info("Verbindung von " + name + " getrennt. IP: (" + ip + ")");
+		MainFrame.playerUpdate();
 	}
 	
 	public void send(String finalString) {
 		sOutput.append(finalString + "\n");
+	}
+
+	public void inspection() {
+		long currentTime = System.currentTimeMillis();
+		if((currentTime - lastInput) >= 2000) {
+			stop();
+		}
 	}
 }
