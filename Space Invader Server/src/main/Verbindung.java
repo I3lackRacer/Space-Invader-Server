@@ -55,9 +55,10 @@ public class Verbindung implements Runnable {
 				}
 
 			}
-			MultiplayerServer.makeNewOne = true;
-			stillConnected = true;
+			
 		} while (socket == null);
+		MultiplayerServer.makeNewOne = true;
+		stillConnected = true;
 		lastInput = System.currentTimeMillis();
 		player = new Player(0, 0, ID.Player, handler, hud, this, id);
 		handler.addObject(player);

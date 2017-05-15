@@ -17,6 +17,7 @@ public class MultiplayerServer implements Runnable{
 	public void verbinde() {
 		while(!MainFrame.stopServer) {
 			while(!MainFrame.logins.isSelected());
+			System.out.println("Trigged");
 				if(makeNewOne) {
 					makeNewOne = false;
 					MainFrame.info("Neue Verbindung wird hergestellt");
